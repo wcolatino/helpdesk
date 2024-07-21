@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/chamados")
 public class ChamadoResource {
@@ -22,6 +25,13 @@ public class ChamadoResource {
     public ResponseEntity<ChamadoDTO> findById(@Valid @PathVariable Integer id){
         Chamado obj = service.findById(id);
         return ResponseEntity.ok().body(new ChamadoDTO(obj));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ChamadoDTO>> findAll(){
+        List<Chamado> listObj = service.findAll();
+        List<ChamadoDTO> listDto = listObj.stream().map(obj-> new ChamadoDTO(obj)).collect(Collectors.toList()); //COleta a lista de Chamado para uma lista de ChamadoDTO
+        return ResponseEntity.ok().body(listDto);
     }
 
 }
