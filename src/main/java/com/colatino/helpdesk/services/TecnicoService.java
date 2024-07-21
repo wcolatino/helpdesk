@@ -1,6 +1,7 @@
 package com.colatino.helpdesk.services;
 
 import com.colatino.helpdesk.domain.Tecnico;
+import com.colatino.helpdesk.domain.dtos.TecnicoDTO;
 import com.colatino.helpdesk.repositories.TecnicoRepository;
 import com.colatino.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,9 @@ public class TecnicoService {
         return repository.findAll();
     }
 
+    public Tecnico create(TecnicoDTO objDTO) {
+        objDTO.setId(null); //Se vir ID seta NUll, caso seja UPDATE;
+        Tecnico newObj = new Tecnico(objDTO); //FOi necessário criar um construtor em técnico recebendo TecnidoDTO;
+        return repository.save(newObj);
+    }
 }
