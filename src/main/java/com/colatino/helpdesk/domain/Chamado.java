@@ -18,6 +18,7 @@ public class Chamado {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataAbertura = LocalDate.now(); //Força setar a data atual
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento; // Será setada quando o chamado for fechado
 
     private Prioridade prioridade;
