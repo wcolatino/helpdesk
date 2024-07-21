@@ -1,5 +1,6 @@
 package com.colatino.helpdesk.domain.dtos;
 
+import com.colatino.helpdesk.domain.Cliente;
 import com.colatino.helpdesk.domain.Tecnico;
 import com.colatino.helpdesk.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TecnicoDTO {
+public class ClienteDTO {
 
 
     protected Integer id;
@@ -28,11 +29,11 @@ public class TecnicoDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
-    public TecnicoDTO(){
+    public ClienteDTO(){
         super();
     }
 
-    public TecnicoDTO(Tecnico obj) {
+    public ClienteDTO(Cliente obj) {
         this.id = obj.getId();
         this.nome = obj.getNome();
         this.cpf = obj.getCpf();

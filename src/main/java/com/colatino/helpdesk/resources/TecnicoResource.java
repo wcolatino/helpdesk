@@ -2,7 +2,6 @@ package com.colatino.helpdesk.resources;
 
 import com.colatino.helpdesk.domain.Tecnico;
 import com.colatino.helpdesk.domain.dtos.TecnicoDTO;
-import com.colatino.helpdesk.repositories.TecnicoRepository;
 import com.colatino.helpdesk.services.TecnicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
