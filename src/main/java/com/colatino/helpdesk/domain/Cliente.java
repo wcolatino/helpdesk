@@ -1,6 +1,7 @@
 package com.colatino.helpdesk.domain;
 
 import com.colatino.helpdesk.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public class Cliente extends Pessoa {
 
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<Chamado> chamados = new ArrayList<>();
 
     public Cliente() {
