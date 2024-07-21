@@ -1,6 +1,7 @@
 package com.colatino.helpdesk.resources;
 
 import com.colatino.helpdesk.domain.Tecnico;
+import com.colatino.helpdesk.domain.dtos.TecnicoDTO;
 import com.colatino.helpdesk.repositories.TecnicoRepository;
 import com.colatino.helpdesk.services.TecnicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class TecnicoResource {
     private TecnicoService tecnicoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tecnico> findaById(@PathVariable Integer id){
+    public ResponseEntity<TecnicoDTO> findaById(@PathVariable Integer id){ //Returno o DTO ao invés da entidade
         Tecnico obj = tecnicoService.findById(id);
-        return ResponseEntity.ok(obj);
+        return ResponseEntity.ok(new TecnicoDTO(obj)); //Passo o DTO como objeto e o obj como parâmetro, já que tenho construtor obrigado.
     }
 }
