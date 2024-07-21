@@ -1,6 +1,11 @@
 package com.colatino.helpdesk.services;
 
 import com.colatino.helpdesk.domain.Chamado;
+import com.colatino.helpdesk.domain.Cliente;
+import com.colatino.helpdesk.domain.Tecnico;
+import com.colatino.helpdesk.domain.dtos.ChamadoDTO;
+import com.colatino.helpdesk.domain.enums.Prioridade;
+import com.colatino.helpdesk.domain.enums.Status;
 import com.colatino.helpdesk.repositories.ChamadoRepository;
 import com.colatino.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,10 @@ public class ChamadoService {
 
     @Autowired
     private ChamadoRepository repository;
+    @Autowired
+    private TecnicoService tecnicoService;
+    @Autowired
+    private ClienteService clienteService;
 
     public Chamado findById(Integer id){
         Optional<Chamado> obj = repository.findById(id);
@@ -22,5 +31,26 @@ public class ChamadoService {
 
     public List<Chamado> findAll(){
         return repository.findAll();
+    }
+
+    public Chamado create(ChamadoDTO objDTO) {
+        return repository.save(newChamado(objDTO));
+    }
+
+    private Chamado newChamado(ChamadoDTO obj){
+        Cliente cliente = clienteService.findById(obj.getCliente());
+        Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
+
+        Chamado chamado = new Chamado(); //Se o Id vier vazio, é novo chamado, se vier preenchido, é atualização
+        if (obj.getId()!=null){
+            chamado.setId(obj.getId());
+        }
+        chamado.setTecnico(tecnico);
+        chamado.setCliente(cliente);
+        chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
+        chamado.setStatus(Status.toEnum(obj.getStatus()));
+        chamado.setTitulo(obj.getTitulo());
+        chamado.setObservacoes(obj.getObservacoes());
+        return chamado;
     }
 }

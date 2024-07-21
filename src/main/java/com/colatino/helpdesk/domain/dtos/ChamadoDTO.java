@@ -7,6 +7,7 @@ import com.colatino.helpdesk.domain.enums.Prioridade;
 import com.colatino.helpdesk.domain.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -20,14 +21,19 @@ public class ChamadoDTO {
     private LocalDate dataFechamento;
 
     //Mudados de objeto para Integer, uma vez que só precisarei do Id do técnico e do Cliente para trabalhar no front
+    @NotNull(message = "O campo PRIORIDADE não pode ser vazio")
     private Integer prioridade;
+    @NotNull(message = "O campo STATUS não pode ser vazio")
     private Integer status;
-
+    @NotNull(message = "O campo TITULO não pode ser vazio")
     private String titulo;
+    @NotNull(message = "O campo OBSERVAÇÕES não pode ser vazio")
     private String observacoes;
 
     //Mudados de objeto para Integer, uma vez que só precisarei do Id do técnico e do Cliente para trabalhar no front
+    @NotNull(message = "O campo TECNICO não pode ser vazio")
     private Integer tecnico;
+    @NotNull(message = "O campo CLIENTE não pode ser vazio")
     private Integer cliente;
 
     private String nomeTecnico; //Para retornar apenas nome quando eu fize rum findAll
