@@ -4,6 +4,7 @@ import com.colatino.helpdesk.domain.Tecnico;
 import com.colatino.helpdesk.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -14,9 +15,14 @@ public class TecnicoDTO {
 
 
     protected Integer id;
+
+    @NotNull(message = "o campo NOME não pode ser vazio")
     protected String nome;
+    @NotNull(message = "o campo CPF não pode ser vazio")
     protected String cpf;
+    @NotNull(message = "o campo EMAIL não pode ser vazio")
     protected String email;
+    @NotNull(message = "o campo SENHA não pode ser vazio")
     protected String senha;
     protected Set<Integer> perfis = new HashSet<>(); //Set para não permitir dois valores iguais. Integer para armazenar apenas o código do perfil
 
