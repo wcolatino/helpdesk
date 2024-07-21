@@ -1,7 +1,10 @@
 package com.colatino.helpdesk.domain;
 
 import com.colatino.helpdesk.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,14 +12,26 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 // Classe abstrata, não poderá ser herdada, somente poderá ser instanciado técnico e cliente
-public abstract class Pessoa {
+@Entity
+public abstract class Pessoa implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Deixa o banco gerar como quiser;
     protected Integer id;
     protected String nome;
+
+    @Column(unique = true) // COluna unica
     protected String cpf;
+
+    @Column(unique = true)
     protected String email;
     protected String senha;
+
+    @ElementCollection(fetch = FetchType.EAGER)// Quando buscar o usuário no banco, traga os perfis junto
+    @CollectionTable(name = "PERFILS") // Vai ter uma tabela no banco somente com os perfis
     protected Set<Integer> perfis = new HashSet<>(); //Set para não permitir dois valores iguais. Integer para armazenar apenas o código do perfil
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
     public Pessoa() {

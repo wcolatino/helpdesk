@@ -2,21 +2,35 @@ package com.colatino.helpdesk.domain;
 
 import com.colatino.helpdesk.domain.enums.Prioridade;
 import com.colatino.helpdesk.domain.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
 public class Chamado {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataAbertura = LocalDate.now(); //Força setar a data atual
     private LocalDate dataFechamento; // Será setada quando o chamado for fechado
+
     private Prioridade prioridade;
     private Status status;
     private String titulo;
     private String observacoes;
 
+    @ManyToOne
+    @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public Chamado(){
