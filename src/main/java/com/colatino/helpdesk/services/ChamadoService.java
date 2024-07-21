@@ -11,6 +11,7 @@ import com.colatino.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,13 @@ public class ChamadoService {
         return repository.save(newChamado(objDTO));
     }
 
+    public Chamado update(Integer id, ChamadoDTO objDTO) {
+        objDTO.setId(id); //garante que não receba valores inválidos no update
+        Chamado oldObj = findById(id);
+        oldObj = newChamado(objDTO); //Pegará os dados o Dto Antigo e passará para o novo chamado
+        return repository.save(oldObj);
+    }
+
     private Chamado newChamado(ChamadoDTO obj){
         Cliente cliente = clienteService.findById(obj.getCliente());
         Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
@@ -45,6 +53,11 @@ public class ChamadoService {
         if (obj.getId()!=null){
             chamado.setId(obj.getId());
         }
+
+        if (obj.getStatus().equals(2)){
+            chamado.setDataFechamento(LocalDate.now());
+        }
+
         chamado.setTecnico(tecnico);
         chamado.setCliente(cliente);
         chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
@@ -53,4 +66,6 @@ public class ChamadoService {
         chamado.setObservacoes(obj.getObservacoes());
         return chamado;
     }
+
+
 }
