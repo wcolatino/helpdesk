@@ -36,9 +36,14 @@ public class TecnicoResource {
 
     @PostMapping
     public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO){
-
         Tecnico newObj = tecnicoService.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri(); //Para devolver a URI, já que esei o "created" como resposta
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TecnicoDTO> update(@Valid @PathVariable Integer id, @RequestBody TecnicoDTO objDto){
+        Tecnico obj = tecnicoService.update(id, objDto);
+        return ResponseEntity.ok().body(new TecnicoDTO(obj));
     }
 }
