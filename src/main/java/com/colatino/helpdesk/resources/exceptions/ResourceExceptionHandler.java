@@ -1,5 +1,6 @@
 package com.colatino.helpdesk.resources.exceptions;
 
+import com.colatino.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.colatino.helpdesk.services.exceptions.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,16 @@ public class ResourceExceptionHandler {
         StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "Object not found", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request){
+
+        // Manipula a mensagem de erro devolvendo o momento, o status, a mensagem e a URI do erro;
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Violação de dados", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 
     }
 
